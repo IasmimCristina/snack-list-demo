@@ -1,0 +1,41 @@
+.greeting {
+  text-align: center;
+  margin: 2rem 14rem;
+  padding: 20px;
+  background-color: rgba(78, 78, 78, 0.11);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.greeting__icon {
+  margin-bottom: 20px;
+}
+
+.greeting__message {
+  margin-bottom: 10px;
+}
+
+.greeting__text {
+  font-size: 3rem;
+  font-weight: bold;
+  color: var(--color-accent);
+}
+
+.greeting__description {
+  font-size: 1.25rem;
+  color: var(--color-gray-light);
+  max-width: 600px;
+  margin: 0 auto;
+  font-weight: 300;
+  font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .greeting__text {
+    font-size: 2rem;
+  }
+
+  .greeting__description {
+    font-size: 1rem;
+  }
+}
