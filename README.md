@@ -4,6 +4,10 @@ SnackList is a simple React application designed to manage your snacks lists. It
 
 ---
 
+
+## Tests Setup:
+To ensure the application works as expected, tests are set up using Vitest and React Testing Library.
+
 ## Features:
 - **User Login:** 
   - Fake login modal with username and password validation. Password is 'password' and any username can be typed.
@@ -18,7 +22,6 @@ SnackList is a simple React application designed to manage your snacks lists. It
 ---
 
 ## Tools Used:
-- **Framework and Libraries:**
   - [React](https://reactjs.org/) for building the user interface.
   - [Vite](https://vitejs.dev/) for fast development and build process.
 
@@ -33,8 +36,5 @@ SnackList is a simple React application designed to manage your snacks lists. It
 
 - **Icons:**
   - [React Icons](https://react-icons.github.io/react-icons/) for adding user-friendly icons.
-
 ---
 
-## Tests Setup:
-To ensure the application works as expected, tests are set up using Vitest and React Testing Library.
