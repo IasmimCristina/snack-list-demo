@@ -38,3 +38,5 @@ SnackList is a simple React application designed to manage your snacks lists. It
 
 ## Tests Setup:
 To ensure the application works as expected, tests are set up using Vitest and React Testing Library.
+
+- Follow this tutorial: [Test setup](https://gist.github.com/IasmimCristina/6ba622482b3a80e28d62e6167f42e381)
