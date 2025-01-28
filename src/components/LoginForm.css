@@ -26,6 +26,13 @@
   transition: transform 0.3s ease;
 }
 
+.login-form__title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-gray-dark);
+  text-align: center;
+}
+
 .login-form__input {
   font-family: inherit;
   font-size: 1rem;

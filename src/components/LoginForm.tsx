@@ -14,7 +14,8 @@ const LoginForm = ({ loginName, loginPassword, setLoginName, setLoginPassword, h
   const [isNameValid, setIsNameValid] = useState(true);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
-  const handleSubmit = () => {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     if (loginName.trim() === "" || loginPassword.trim() === "") {
       setIsNameValid(loginName.trim() !== "");
       setIsPasswordValid(loginPassword.trim() !== "");
@@ -25,8 +26,17 @@ const LoginForm = ({ loginName, loginPassword, setLoginName, setLoginPassword, h
 
   return (
     <div className="login-form-overlay">
-      <div className="login-form">
-        <button className="login-form__close" onClick={closeModal}>X</button>
+      <form className="login-form" onSubmit={handleSubmit} aria-labelledby="login-form-title">
+        <button
+          type="button"
+          className="login-form__close"
+          onClick={closeModal}
+          aria-label="Close login form"
+        >
+          X
+        </button>
+
+        <h2 id="login-form-title"  className='login-form__title'>Login Form</h2>
 
         <div className="login-form__input-container">
           <label htmlFor="username" className="login-form__label">Username</label>
@@ -52,8 +62,8 @@ const LoginForm = ({ loginName, loginPassword, setLoginName, setLoginPassword, h
           {!isPasswordValid && <span className="error-message">Password is required.</span>}
         </div>
 
-        <button className="login-form__button" onClick={handleSubmit}>Log In</button>
-      </div>
+        <button type="submit" className="login-form__button">Log In</button>
+      </form>
     </div>
   );
 };
