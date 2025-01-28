@@ -44,8 +44,8 @@ describe('SnackManager', () => {
     });
 
     it('does not render snack form and lists', () => {
-      expect(screen.queryByText(/Snacks I Like/i)).not.toBeInTheDocument();
-      expect(screen.queryByRole('form')).not.toBeInTheDocument();
+      expect.soft(screen.queryByText(/Snacks I Like/i)).not.toBeInTheDocument();
+      expect.soft(screen.queryByRole('form')).not.toBeInTheDocument();
     });
   });
 
@@ -64,7 +64,7 @@ describe('SnackManager', () => {
       expect(screen.getByText(/Snacks I Don't Like 👎/i)).toBeInTheDocument();
     });
 
-    it('shows initial snacks in their respective lists', () => {
+    it('shows initial snacks in their lists', () => {
       expect(screen.getByText(/Snack 01/i)).toBeInTheDocument();
       expect(screen.getByText(/Snack 02/i)).toBeInTheDocument();
     });
