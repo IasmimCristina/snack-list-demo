@@ -1,0 +1,80 @@
+.snack-form {
+  position: sticky;
+  top: 40px; /* Ajuste conforme necessário */
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  background-color: var(--color-gray-dark);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  z-index: 10; /* Garante que o formulário fique sobreposto a outros elementos */
+  height: fit-content;
+}
+
+.snack-form__title {
+  font-size: 1.5rem;
+  color: var(--color-gray-light);
+  text-align: center;
+}
+
+.snack-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.snack-form__label {
+  font-size: 1rem;
+  color: var(--color-gray-light);
+}
+
+.snack-form__input,
+.snack-form__textarea,
+.snack-form__select {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid var(--color-gray-medium);
+  border-radius: 10px;
+  background-color: #fff;
+  color: var(--color-gray-dark);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.snack-form__input:focus,
+.snack-form__textarea:focus,
+.snack-form__select:focus {
+  border-color: var(--color-accent);
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.6);
+}
+
+.snack-form__button {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.8rem 2rem;
+  background-color: var(--color-accent);
+  color: var(--color-gray-light);
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.snack-form__button:hover {
+  background-color: rgba(255, 77, 77, 0.8);
+}
+
+
+.snack-form__input.error,
+.snack-form__textarea.error {
+  border-color: red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
