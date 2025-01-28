@@ -6,7 +6,7 @@ import SnackList from './components/SnackList';
 import { User } from './types/User';
 import { snackReducer, initialSnackState } from './reducers/snackReducer';
 import './App.css';
-import { Snack } from './types/Snack';
+
 
 function App() {
   const [user, setUser] = useState<User>({ name: '', isLoggedIn: false });
@@ -22,12 +22,12 @@ function App() {
             <SnackForm dispatch={dispatch} />
             <div className="app__lists">
               <SnackList
-                title="Snacks I Like"
+                title="Snacks I Like 👍"
                 snacks={snacks.likes}
                 dispatch={dispatch}
               />
               <SnackList
-                title="Snacks I Don't Like"
+                title="Snacks I Don't Like 👎"
                 snacks={snacks.dislikes}
                 dispatch={dispatch}
               />
@@ -35,7 +35,7 @@ function App() {
           </div>
         ) : (
           <p className="app__message">
-            Please log in to start adding snacks to your lists!
+            Login to start adding your favorite snacks!
           </p>
         )}
       </div>

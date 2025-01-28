@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { User } from '../types/User';
-import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';  // Ícone de usuário e logout
+import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa'; 
 import { VscLoading } from 'react-icons/vsc';
 import LoginForm from './LoginForm'; 
 import './Header.css';
@@ -18,15 +18,15 @@ const Header = ({ user, setUser }: HeaderProps) => {
 
   const handleLogin = () => {
     setIsLoading(true);
-    setTimeout(() => {
-      if (loginPassword === "123456" && loginName.trim()) {
-        setUser({ name: loginName, isLoggedIn: true });
-        setIsLoginModalOpen(false);
-      } else {
-        alert("Invalid username or password");
-      }
-      setIsLoading(false);
-    }, 1500);
+    if (loginPassword === "password" && loginName.trim()) {
+      setUser({ name: loginName, isLoggedIn: true });
+      setIsLoginModalOpen(false);
+      setLoginName("");
+      setLoginPassword("");
+    } else {
+      alert("Invalid username or password");
+    }
+    setIsLoading(false);
   };
 
   const closeLoginModal = () => {

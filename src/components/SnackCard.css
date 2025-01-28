@@ -3,9 +3,28 @@
   flex-direction: column;
   background-color: var(--color-gray-dark);
   padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   color: var(--color-gray-light);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  opacity: 0; /* Começa invisível */
+  animation: fadeInUp 0.6s forwards; /* Aplica a animação */
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* Começa de baixo */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Termina na posição final */
+  }
+}
+
+.snack-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
 }
 
 .snack-card__header {
@@ -16,16 +35,31 @@
 
 .snack-card__name {
   font-size: 1.2rem;
-  font-weight: bold;
+  font-weight: 600;
+}
+
+.snack-card__description {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: var(--color-gray-medium);
+}
+
+.snack-card__type {
+  font-size: 0.9rem;
+  color: var(--color-gray-light);
+  margin-top: 0.5rem;
 }
 
 .snack-card__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 1rem;
   background-color: var(--color-accent);
   color: var(--color-gray-light);
   border: none;
-  border-radius: 10px;
-  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -35,8 +69,6 @@
   transform: scale(1.05);
 }
 
-.snack-card__description {
-  margin-top: 0.5rem;
-  font-size: 1rem;
-  color: var(--color-gray-medium);
+.snack-card__button svg {
+  margin-right: 0.5rem;
 }

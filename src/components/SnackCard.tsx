@@ -1,6 +1,7 @@
 import React from 'react';
 import { Snack } from '../types/Snack';
 import { FaTrash } from 'react-icons/fa';
+import './SnackCard.css'
 
 type SnackCardProps = {
   snack: Snack;
@@ -14,12 +15,15 @@ const SnackCard = ({ snack, dispatch }: SnackCardProps) => {
 
   return (
     <li className="snack-card">
-      <h3>{snack.name}</h3>
-      <p>{snack.description}</p>
-      <p>Type: {snack.type}</p>
-      <button onClick={handleRemove}>
-        <FaTrash /> Remove
-      </button>
+      <div className="snack-card__header">
+        <h3 className="snack-card__name">{snack.name}</h3>
+        <button className="snack-card__button" onClick={handleRemove}>
+          <FaTrash />
+          Remove
+        </button>
+      </div>
+      <p className="snack-card__description">{snack.description}</p>
+      <p className="snack-card__type">Type: {snack.type}</p>
     </li>
   );
 };

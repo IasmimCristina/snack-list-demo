@@ -10,15 +10,15 @@ export const initialLikes: Snack[] = [
   },
   {
     id: "2",
-    name: "Sandwich",
-    description: "Tasty sandwich",
-    type: "salty",
+    name: "Tapioca Waffles",
+    description: "Tasty gluten-free variation",
+    type: "sweet",
     like: true,
   },
   {
     id: "3",
     name: "Takoyaki",
-    description: "Japanese octopus balls",
+    description: "Dough filled with octopus",
     type: "salty",
     like: true,
   },
@@ -71,7 +71,7 @@ export const initialDislikes: Snack[] = [
     id: "10",
     name: "Pineapple Pizza",
     description: "Pizza with pineapple",
-    type: "salty",
+    type: "sweet",
     like: false,
   },
 ];

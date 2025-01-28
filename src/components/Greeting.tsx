@@ -26,9 +26,9 @@ const Greeting = ({ user }: GreetingProps) => {
       </div>
       <p className="greeting__description">
         {user.isLoggedIn ? (
-          "Explore your favorite snacks and add them to your lists!"
+          "Explore your favorite snacks and add them to your lists below!"
         ) : (
-          "Login to start adding your favorite snacks."
+          "The best place to get your snacks lists all sorted out!"
         )}
       </p>
     </div>
