@@ -1,3 +1,8 @@
+![image](https://github.com/user-attachments/assets/12a1216d-401d-4a68-baa9-362f6d757ae2)
+
+
+
+
 # SnackList Application
 
 SnackList is a simple React application designed to manage your snacks lists. It allows users to log in, add snacks they like or dislike, and  remove them as they please.
@@ -8,6 +13,9 @@ SnackList is a simple React application designed to manage your snacks lists. It
 - **User Login:** 
   - Fake login modal with username and password validation. Password is 'password' and any username can be typed.
   - Displays a personalized greeting for logged-in users.
+
+![image](https://github.com/user-attachments/assets/7eae165b-9348-4fbe-bfa1-be23ee30024b)
+
 
 - **Snack Management:**
   - Add snacks to "Snacks I Like" or "Snacks I Don’t Like" lists.
