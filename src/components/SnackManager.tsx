@@ -7,7 +7,7 @@ import { User } from '../types/User';
 type SnackManagerProps = {
   snacks: SnackState;
   dispatch: React.Dispatch<any>;
-  user: User; // Adicionamos o user aqui
+  user: User;
 };
 
 const SnackManager: React.FC<SnackManagerProps> = ({ snacks, dispatch, user }) => {

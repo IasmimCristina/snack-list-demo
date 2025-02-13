@@ -13,7 +13,7 @@ describe('Header component', () => {
       isLoggedIn: false
     };
 
-    it('renders login button when user is not logged in', () => {
+    it('renders login button', () => {
       render(<Header user={mockUser} setUser={mockSetUser} />);
 
       expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
@@ -79,7 +79,7 @@ describe('Header component', () => {
       await user.type(screen.getByLabelText(/password/i), 'wrongpassword');
       await user.click(screen.getByRole('button', { name: /log in/i }));
 
-      expect(alertMock).toHaveBeenCalledWith('Invalid username or password');
+      expect(alertMock).toHaveBeenCalledWith('Invalid password!');
       alertMock.mockRestore();
     });
   });

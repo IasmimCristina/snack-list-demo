@@ -24,7 +24,7 @@ const Header = ({ user, setUser }: HeaderProps) => {
       setLoginName("");
       setLoginPassword("");
     } else {
-      alert("Invalid username or password");
+      alert("Invalid password!");
     }
     setIsLoading(false);
   };
