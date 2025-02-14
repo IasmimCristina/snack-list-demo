@@ -5,6 +5,9 @@ import { vi, expect } from "vitest";
 import { User } from "../types/User";
 import Header from "./Header";
 
+
+// Aqui eles já terão mais participação.
+// Eu finalizari o primeiro teste. (Já explicando sobre o customRender)
 const setup = (initialUser: User) => {
   function HeaderWrapper() {
     const [user, setUser] = useState(initialUser);
@@ -17,11 +20,16 @@ const setup = (initialUser: User) => {
 describe("Header component", () => {
   const user = userEvent.setup();
   describe("When user is logged out", () => {
+
     beforeEach(() => {
+      // Setup
       setup({ name: "", isLoggedIn: false });
     });
 
     it("renders login button", () => {
+      // Mencionar o expect soft apenas após perceberem que há expects seguidos.
+     
+    // Assertion 
       expect.soft(
         screen.getByRole("button", { name: /login/i })
       ).toBeInTheDocument();
@@ -32,7 +40,7 @@ describe("Header component", () => {
 
     it("opens login form when clicking login button", async () => {
       await user.click(screen.getByRole("button", { name: /login/i }));
-
+//  Explicar por qual motivo usamos await com o user.
       expect(
         screen.getByRole("form", { name: /login form/i })
       ).toBeInTheDocument();
@@ -81,6 +89,7 @@ describe("Header component", () => {
     });
 
     it("shows alert for invalid credentials", async () => {
+    //  Oportunidade para explicar mais sobre mocks!
       const alertMock = vi.spyOn(window, "alert").mockImplementation(() => {});
 
       await user.click(screen.getByRole("button", { name: /login/i }));
@@ -90,6 +99,7 @@ describe("Header component", () => {
 
       expect(alertMock).toHaveBeenCalledWith("Invalid password!");
       alertMock.mockRestore();
+      // Explicar por qual motivo precisamos do restore.
     });
   });
 
@@ -116,7 +126,7 @@ describe("Header component", () => {
       ).toBeInTheDocument();
       expect(
         screen.queryByRole("button", { name: /logout/i })
-      ).not.toBeInTheDocument();
+      ).not.toBeInTheDocument(); // Lembrar o uso do query quando são testes d enãoe xistência!
     });
   });
 });

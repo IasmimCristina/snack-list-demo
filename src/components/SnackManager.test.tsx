@@ -5,6 +5,10 @@ import { useReducer } from "react";
 import { snackReducer, SnackState } from "../reducers/snackReducer";
 import { User } from "../types/User";
 
+//  LEMBRETE: Usar uma oportunidade para utilizar o playground (Talvez durante o momento que eu mesma resolvo um teste.)
+//  Mencionar o uso do temrinal como debugger.
+
+// Explicar que, em alguns casos, testes irão precisar disto:
 const initialSnacks: SnackState = {
   likes: [
     {
@@ -26,9 +30,11 @@ const initialSnacks: SnackState = {
   ],
 };
 
+// Irei completar um como exemplo para eles.
 describe("SnackManager", () => {
   const user = userEvent.setup();
 
+  // Mais um exmeplo de setup
   const setup = (user: User) => {
     function SnackManagerWrapper() {
       const [snacks, dispatch] = useReducer(snackReducer, initialSnacks);
@@ -44,9 +50,9 @@ describe("SnackManager", () => {
     });
 
     it("displays login message", () => {
-      expect
-        .soft(screen.getByText(/Login to start adding your favorite snacks!/i))
-        .toBeInTheDocument();
+      expect(
+        screen.getByText(/Login to start adding your favorite snacks!/i)
+      ).toBeInTheDocument();
     });
 
     it("does not render snack form and lists", () => {
@@ -56,7 +62,6 @@ describe("SnackManager", () => {
       expect
         .soft(screen.queryByRole("list", { name: /Snacks I Don't Like/i }))
         .not.toBeInTheDocument();
-
       expect.soft(screen.queryByRole("form")).not.toBeInTheDocument();
     });
   });
@@ -79,6 +84,7 @@ describe("SnackManager", () => {
         name: /Snacks I Don't Like/i,
       });
 
+      //  Mencionar o uso do WITHIN
       expect.soft(within(likedList).getByText(/Snack 01/i));
       expect.soft(within(dislikedList).getByText(/Snack 02/i));
     });
@@ -102,10 +108,12 @@ describe("SnackManager", () => {
 
     describe("when removing a snack", () => {
       it("removes a liked snack correctly", async () => {
+        // Mencionar que poderíamos usar data test ids aqui.
         const likedList = screen.getByRole("list", { name: /Snacks I Like/i });
         const removeButton = within(likedList).getByRole("button", {
           name: /Remove/i,
         });
+        //  Usar uma oportunidade para utilizar o playground (Talvez durante o momento que eu mesma resolvo um teste)
 
         await user.click(removeButton);
 
