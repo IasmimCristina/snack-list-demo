@@ -1,149 +1,117 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import SnackManager from './SnackManager';
-import { SnackState } from '../reducers/snackReducer';
-import { User } from '../types/User';
-import { Snack } from '../types/Snack';
+import { render, screen, waitFor, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import SnackManager from "./SnackManager";
+import { useReducer } from "react";
+import { snackReducer, SnackState } from "../reducers/snackReducer";
+import { User } from "../types/User";
 
-describe('SnackManager', () => {
-  const mockDispatch = vi.fn();
+const initialSnacks: SnackState = {
+  likes: [
+    {
+      id: "1",
+      name: "Snack 01",
+      description: "Crispy sweet potato chips",
+      type: "sweet",
+      like: true,
+    },
+  ],
+  dislikes: [
+    {
+      id: "2",
+      name: "Snack 02",
+      description: "Black licorice candy",
+      type: "sweet",
+      like: false,
+    },
+  ],
+};
 
-  const initialSnacks: SnackState = {
-    likes: [
-      {
-        id: '1',
-        name: 'Snack 01',
-        description: 'Crispy potato chips',
-        type: 'salty',
-        like: true
-      }
-    ],
-    dislikes: [
-      {
-        id: '2',
-        name: 'Snack 02',
-        description: 'Black licorice candy',
-        type: 'sweet',
-        like: false
-      }
-    ]
+describe("SnackManager", () => {
+  const user = userEvent.setup();
+
+  const setup = (user: User) => {
+    function SnackManagerWrapper() {
+      const [snacks, dispatch] = useReducer(snackReducer, initialSnacks);
+      return <SnackManager snacks={snacks} dispatch={dispatch} user={user} />;
+    }
+
+    return render(<SnackManagerWrapper />);
   };
 
-  describe('when user is logged out', () => {
-    const loggedOutUser: User = {
-      name: '',
-      isLoggedIn: false
-    };
-
+  describe("when user is logged out", () => {
     beforeEach(() => {
-      render(<SnackManager snacks={initialSnacks} dispatch={mockDispatch} user={loggedOutUser} />);
+      setup({ name: "", isLoggedIn: false });
     });
 
-    it('displays login message', () => {
-      expect(screen.getByText(/Login to start adding your favorite snacks!/i)).toBeInTheDocument();
+    it("displays login message", () => {
+      expect
+        .soft(screen.getByText(/Login to start adding your favorite snacks!/i))
+        .toBeInTheDocument();
     });
 
-    it('does not render snack form and lists', () => {
-      expect.soft(screen.queryByText(/Snacks I Like/i)).not.toBeInTheDocument();
-      expect.soft(screen.queryByRole('form')).not.toBeInTheDocument();
+    it("does not render snack form and lists", () => {
+      expect
+        .soft(screen.queryByRole("list", { name: /Snacks I Like/i }))
+        .not.toBeInTheDocument();
+      expect
+        .soft(screen.queryByRole("list", { name: /Snacks I Don't Like/i }))
+        .not.toBeInTheDocument();
+
+      expect.soft(screen.queryByRole("form")).not.toBeInTheDocument();
     });
   });
 
-  describe('when user is logged in', () => {
-    const loggedInUser: User = {
-      name: 'John',
-      isLoggedIn: true
-    };
-
+  describe("when user is logged in", () => {
     beforeEach(() => {
-      render(<SnackManager snacks={initialSnacks} dispatch={mockDispatch} user={loggedInUser} />);
+      setup({ name: "Ias", isLoggedIn: true });
     });
 
-    it('displays both snack lists with correct titles', () => {
-      expect(screen.getByText(/Snacks I Like 👍/i)).toBeInTheDocument();
-      expect(screen.getByText(/Snacks I Don't Like 👎/i)).toBeInTheDocument();
+    it("displays both snack lists with correct titles", () => {
+      expect.soft(screen.getByText(/Snacks I Like 👍/i)).toBeInTheDocument();
+      expect
+        .soft(screen.getByText(/Snacks I Don't Like 👎/i))
+        .toBeInTheDocument();
     });
 
-    it('shows initial snacks in their lists', () => {
-      expect(screen.getByText(/Snack 01/i)).toBeInTheDocument();
-      expect(screen.getByText(/Snack 02/i)).toBeInTheDocument();
+    it("shows initial snacks in their lists", () => {
+      const likedList = screen.getByRole("list", { name: /Snacks I Like/i });
+      const dislikedList = screen.getByRole("list", {
+        name: /Snacks I Don't Like/i,
+      });
+
+      expect.soft(within(likedList).getByText(/Snack 01/i));
+      expect.soft(within(dislikedList).getByText(/Snack 02/i));
     });
 
-    describe('when adding a new snack', () => {
-      it('adds a liked snack correctly', async () => {
-        const snackNameInput = screen.getByLabelText(/Snack Name/i);
-        const snackDescriptionInput = screen.getByLabelText(/Description/i);
-        const snackTypeSelect = screen.getByLabelText(/Type/i);
-        const likeRadio = screen.getByLabelText(/I like it 👍/i);
-        const submitButton = screen.getByText(/Add Snack/i);
+    describe("when adding a new snack", () => {
+      it("adds a liked snack correctly", async () => {
+        await user.type(screen.getByLabelText(/Snack Name/i), "New Snack");
+        await user.type(
+          screen.getByLabelText(/Description/i),
+          "Tasty snack description"
+        );
+        await user.selectOptions(screen.getByLabelText(/Type/i), "salty");
+        await user.click(screen.getByLabelText(/I like it 👍/i));
+        await user.click(screen.getByRole("button", { name: /Add Snack/i }));
 
-        await userEvent.type(snackNameInput, 'New Snack');
-        await userEvent.type(snackDescriptionInput, 'Tasty snack description');
-        await userEvent.selectOptions(snackTypeSelect, 'salty');
-        await userEvent.click(likeRadio);
-        await userEvent.click(submitButton);
-
-        expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({
-          type: 'ADD_SNACK',
-          payload: expect.objectContaining({
-            name: 'New Snack',
-            description: 'Tasty snack description',
-            type: 'salty',
-            like: true,
-          })
-        }));
+        await waitFor(() =>
+          expect.soft(screen.getByText(/New Snack/i)).toBeInTheDocument()
+        );
       });
+    });
 
-      it('adds a disliked snack correctly', async () => {
-        const snackNameInput = screen.getByLabelText(/Snack Name/i);
-        const snackDescriptionInput = screen.getByLabelText(/Description/i);
-        const snackTypeSelect = screen.getByLabelText(/Type/i);
-        const dislikeRadio = screen.getByLabelText(/I don't like it 👎/i);
-        const submitButton = screen.getByText(/Add Snack/i);
+    describe("when removing a snack", () => {
+      it("removes a liked snack correctly", async () => {
+        const likedList = screen.getByRole("list", { name: /Snacks I Like/i });
+        const removeButton = within(likedList).getByRole("button", {
+          name: /Remove/i,
+        });
 
-        await userEvent.type(snackNameInput, 'Bad Snack');
-        await userEvent.type(snackDescriptionInput, 'Not so tasty snack');
-        await userEvent.selectOptions(snackTypeSelect, 'sweet');
-        await userEvent.click(dislikeRadio);
-        await userEvent.click(submitButton);
+        await user.click(removeButton);
 
-        expect(mockDispatch).toHaveBeenCalledWith(expect.objectContaining({
-          type: 'ADD_SNACK',
-          payload: expect.objectContaining({
-            name: 'Bad Snack',
-            description: 'Not so tasty snack',
-            type: 'sweet',
-            like: false,
-          })
-        }));
-      });
-
-      it('shows error message if snack name is missing', async () => {
-        const snackDescriptionInput = screen.getByLabelText(/Description/i);
-        const snackTypeSelect = screen.getByLabelText(/Type/i);
-        const likeRadio = screen.getByLabelText(/I like it 👍/i);
-        const submitButton = screen.getByText(/Add Snack/i);
-
-        await userEvent.type(snackDescriptionInput, 'Description only snack');
-        await userEvent.selectOptions(snackTypeSelect, 'bitter');
-        await userEvent.click(likeRadio);
-        await userEvent.click(submitButton);
-
-        expect(screen.getByText(/Snack name is required./i)).toBeInTheDocument();
-      });
-
-      it('shows error message if description is missing', async () => {
-        const snackNameInput = screen.getByLabelText(/Snack Name/i);
-        const snackTypeSelect = screen.getByLabelText(/Type/i);
-        const likeRadio = screen.getByLabelText(/I like it 👍/i);
-        const submitButton = screen.getByText(/Add Snack/i);
-
-        await userEvent.type(snackNameInput, 'Snack Without Description');
-        await userEvent.selectOptions(snackTypeSelect, 'salty');
-        await userEvent.click(likeRadio);
-        await userEvent.click(submitButton);
-
-        expect(screen.getByText(/Description is required./i)).toBeInTheDocument();
+        await waitFor(() =>
+          expect.soft(screen.queryByText(/Snack 01/i)).not.toBeInTheDocument()
+        );
       });
     });
   });

@@ -10,7 +10,7 @@ export const initialSnackState: SnackState = {
   likes: initialLikes,
   dislikes: initialDislikes,
 };
-
+// Duas funções principais:
 type SnackAction =
   | { type: "ADD_SNACK"; payload: Snack }
   | { type: "REMOVE_SNACK"; payload: { id: string } };
