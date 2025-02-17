@@ -1,60 +1,40 @@
 import { render, screen } from "@testing-library/react";
 import Greeting from "./Greeting";
 
-// Este será o primeiro compennte. Eu usarei como exmeplo com alguns testes já resolvidos.
-describe("Greeting component", () => {
-  describe("when user is logged in", () => {
-    // beforeEach(() => {
-    //   render(<Greeting user={{ name: "Iasmim", isLoggedIn: true }} />);
-    // });
-    // A ideia inicial é não mostrar o before each e apenas apresentá-lo quando eles perceberem que repetimos o render!
-    // Alguns testes estarão incompletos.
-
-    it("displays the user name in the greeting message", () => {
-      // Setup
+describe("Greeting", () => {
+  describe("When user is logged in", () => {
+    it("displays the user name and the description in the greeting message", () => {
+      // 1. Setup
       render(<Greeting user={{ name: "Iasmim", isLoggedIn: true }} />);
 
-      // Action
       const greetingMessage = screen.getByRole("heading", {
-        name: /Welcome, Iasmim!/i, // explique a diferença entre aspas e barras!
+        name: "Welcome, Iasmim!",
       });
-
-      // Assertion
-      expect(greetingMessage).toBeInTheDocument();
-    });
-
-    it("displays the description to explore snacks", () => {
-      // Šetup
-      render(<Greeting user={{ name: "Iasmim", isLoggedIn: true }} />);
-
-      // Action
       const description = screen.getByText(
-        /Explore your favorite snacks and add them to your lists below!/i
+        "Explore your favorite snacks and add them to your lists below!"
       );
 
-      // Assertion
-      expect(description).toBeInTheDocument();
+      // 3. Assertion
+      expect.soft(greetingMessage).toBeInTheDocument();
+      expect.soft(description).toBeInTheDocument();
     });
   });
 
-  // Vamos testar dois principais contextos: log in, log out (basicamente em todos os componentes)
-  describe("when user is not logged in", () => {
-    beforeEach(() => {
+  describe("When user is logged out", () => {
+    it("displays the default greeting message and the description", () => {
+      // 1. Setup
       render(<Greeting user={{ name: "", isLoggedIn: false }} />);
-    });
 
-    it("displays the default greeting message", () => {
-      const greetingMessage = screen.getByRole("heading", {
-        name: /Welcome to SnackList!/i,
+      const defaultMessage = screen.getByRole("heading", {
+        name: "Welcome to SnackList!",
       });
-      expect(greetingMessage).toBeInTheDocument();
-    });
-
-    it("displays the description about snack lists", () => {
       const description = screen.getByText(
-        /The best place to get your snacks lists all sorted out!/i
+        "The best place to get your snacks lists all sorted out!"
       );
-      expect(description).toBeInTheDocument();
+
+      // 3. Assertion
+      expect.soft(defaultMessage).toBeInTheDocument();
+      expect.soft(description).toBeInTheDocument();
     });
   });
 });

@@ -13,11 +13,11 @@ const SnackList = ({ title, snacks, dispatch }: SnackListProps) => {
   const titleId = title.toLowerCase().replace(/\s+/g, "-");
 
   return (
-    <div className="snack-list">
+    <div className="snack-list" data-testId={titleId}>
       <h2 id={titleId} className="snack-list__title">
         {title}
         <div className="snack-list__quantity">
-          {snacks.length} items
+          {snacks.length} item(s)
           <FaCheckCircle className="snack-list__quantity-icon" />
         </div>
       </h2>

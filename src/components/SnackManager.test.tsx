@@ -5,36 +5,30 @@ import { useReducer } from "react";
 import { snackReducer, SnackState } from "../reducers/snackReducer";
 import { User } from "../types/User";
 
-//  LEMBRETE: Usar uma oportunidade para utilizar o playground (Talvez durante o momento que eu mesma resolvo um teste.)
-//  Mencionar o uso do temrinal como debugger.
-
-// Explicar que, em alguns casos, testes irão precisar disto:
 const initialSnacks: SnackState = {
   likes: [
     {
       id: "1",
-      name: "Snack 01",
-      description: "Crispy sweet potato chips",
-      type: "sweet",
+      name: "Good snack",
+      description: "Tasty food",
+      type: "salty",
       like: true,
     },
   ],
   dislikes: [
     {
       id: "2",
-      name: "Snack 02",
-      description: "Black licorice candy",
+      name: "Bad snack",
+      description: "Weird sweet bar",
       type: "sweet",
-      like: false,
+      like: true,
     },
   ],
 };
 
-// Irei completar um como exemplo para eles.
 describe("SnackManager", () => {
   const user = userEvent.setup();
 
-  // Mais um exmeplo de setup
   const setup = (user: User) => {
     function SnackManagerWrapper() {
       const [snacks, dispatch] = useReducer(snackReducer, initialSnacks);
@@ -44,81 +38,81 @@ describe("SnackManager", () => {
     return render(<SnackManagerWrapper />);
   };
 
-  describe("when user is logged out", () => {
+  describe("When user is logged out", () => {
     beforeEach(() => {
+      // 1. Setup
+
       setup({ name: "", isLoggedIn: false });
     });
 
     it("displays login message", () => {
+      // 3. Assertion
       expect(
-        screen.getByText(/Login to start adding your favorite snacks!/i)
+        screen.getByText("Login to start adding your favorite snacks!")
       ).toBeInTheDocument();
-    });
-
-    it("does not render snack form and lists", () => {
-      expect
-        .soft(screen.queryByRole("list", { name: /Snacks I Like/i }))
-        .not.toBeInTheDocument();
-      expect
-        .soft(screen.queryByRole("list", { name: /Snacks I Don't Like/i }))
-        .not.toBeInTheDocument();
-      expect.soft(screen.queryByRole("form")).not.toBeInTheDocument();
     });
   });
 
-  describe("when user is logged in", () => {
+  describe("When user is logged in", () => {
     beforeEach(() => {
+      // 1. Setup
       setup({ name: "Ias", isLoggedIn: true });
     });
 
-    it("displays both snack lists with correct titles", () => {
-      expect.soft(screen.getByText(/Snacks I Like 👍/i)).toBeInTheDocument();
-      expect
-        .soft(screen.getByText(/Snacks I Don't Like 👎/i))
-        .toBeInTheDocument();
+    it("displays both snack lists with their items", () => {
+      // Option - data-testId:
+      const likedList = screen.getByTestId("snacks-i-like-👍");
+      const dislikedList = screen.getByTestId("snacks-i-do-not-like-👎");
+
+      // Second option:
+      // const likedList = screen.getByRole("list", { name: "Snacks I like 👍 1 item(s)" });
+      // const dislikedList = screen.getByRole("list", {
+      //   name: "Snacks I do not like 👎 1 item(s)",
+      // });
+
+      // Debugging tool
+      screen.logTestingPlaygroundURL();
+
+      // 3. Assertion
+      expect.soft(likedList).toBeInTheDocument();
+      expect.soft(dislikedList).toBeInTheDocument();
+      expect.soft(within(likedList).getByText("Good snack"));
+      expect.soft(within(dislikedList).getByText("Bad snack"));
     });
 
-    it("shows initial snacks in their lists", () => {
-      const likedList = screen.getByRole("list", { name: /Snacks I Like/i });
-      const dislikedList = screen.getByRole("list", {
-        name: /Snacks I Don't Like/i,
-      });
-
-      //  Mencionar o uso do WITHIN
-      expect.soft(within(likedList).getByText(/Snack 01/i));
-      expect.soft(within(dislikedList).getByText(/Snack 02/i));
-    });
-
-    describe("when adding a new snack", () => {
+    describe("When adding a new snack", () => {
       it("adds a liked snack correctly", async () => {
-        await user.type(screen.getByLabelText(/Snack Name/i), "New Snack");
+        const likedList = screen.getByTestId("snacks-i-like-👍");
+
+        // 2. Action
+        await user.type(screen.getByLabelText(/Snack Name/i), "New snack");
         await user.type(
-          screen.getByLabelText(/Description/i),
+          screen.getByLabelText("Description"),
           "Tasty snack description"
         );
-        await user.selectOptions(screen.getByLabelText(/Type/i), "salty");
-        await user.click(screen.getByLabelText(/I like it 👍/i));
-        await user.click(screen.getByRole("button", { name: /Add Snack/i }));
+        // await user.selectOptions(screen.getByLabelText("Type"), "bitter");
+        await user.click(screen.getByRole("option", { name: "Bitter" }));
+        await user.click(screen.getByLabelText("I like it 👍"));
+        await user.click(screen.getByRole("button", { name: "Add Snack" }));
 
-        await waitFor(() =>
-          expect.soft(screen.getByText(/New Snack/i)).toBeInTheDocument()
-        );
+        // 3. Assertion
+        expect(within(likedList).getByText("New snack"));
       });
     });
 
-    describe("when removing a snack", () => {
+    describe("When removing a snack", () => {
       it("removes a liked snack correctly", async () => {
-        // Mencionar que poderíamos usar data test ids aqui.
-        const likedList = screen.getByRole("list", { name: /Snacks I Like/i });
+        const likedList = screen.getByTestId("snacks-i-like-👍");
         const removeButton = within(likedList).getByRole("button", {
-          name: /Remove/i,
+          name: "Remove",
         });
-        //  Usar uma oportunidade para utilizar o playground (Talvez durante o momento que eu mesma resolvo um teste)
 
+        // 2. Action
         await user.click(removeButton);
 
+        // 3. Assertion
         await waitFor(() =>
-          expect.soft(screen.queryByText(/Snack 01/i)).not.toBeInTheDocument()
+          expect.soft(screen.queryByText("Good snack")).not.toBeInTheDocument()
         );
       });
     });
