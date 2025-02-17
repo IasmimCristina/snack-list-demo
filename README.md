@@ -36,9 +36,8 @@ SnackList is a simple React application designed to manage your snacks lists. It
   - [Vite](https://vitejs.dev/) for fast development and build process.
 
 - **Styling:**
-  - CSS with custom variables for theming and responsive design.
-  - Smooth animations and transitions for hover and entry effects.
-
+  - CSS
+  
 - **Testing:**
   - [Vitest](https://vitest.dev/) for writing and running tests.
   - [React Testing Library](https://testing-library.com/) for testing React components.
