@@ -38,9 +38,9 @@ describe("Header", () => {
       await user.click(screen.getByRole("button", { name: "Login" }));
 
       // 3. Assertion
-      expect.soft(
-        screen.getByRole("form", { name: "Login form" })
-      ).toBeInTheDocument();
+      expect
+        .soft(screen.getByRole("form", { name: "Login form" }))
+        .toBeInTheDocument();
       expect.soft(screen.getByLabelText("Username")).toBeInTheDocument();
       expect.soft(screen.getByLabelText("Password")).toBeInTheDocument();
     });
@@ -106,18 +106,16 @@ describe("Header", () => {
 
       // 3. Assertion
       expect(alertMock).toHaveBeenCalledWith("Invalid password!");
-      
+
       alertMock.mockRestore();
     });
   });
 
   describe("When user is logged in", () => {
-    beforeEach(() => {
+    it("logs out correctly", async () => {
       // 1. Setup
       setup({ name: "Ias", isLoggedIn: true });
-    });
-
-    it("logs out correctly", async () => {
+      
       // 2. Action
       await user.click(screen.getByRole("button", { name: "Logout" }));
 
