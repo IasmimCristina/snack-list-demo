@@ -165,7 +165,6 @@ li {
   text-decoration: underline;
 }
 
-/* Animação para a mensagem */
 @keyframes fadeIn {
   0% {
     opacity: 0;

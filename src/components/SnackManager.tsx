@@ -1,16 +1,20 @@
-import React from 'react';
-import SnackForm from './SnackForm';
-import SnackList from './SnackList';
-import { SnackState } from '../reducers/snackReducer';
-import { User } from '../types/User';
+import React from "react";
+import SnackForm from "./SnackForm";
+import SnackList from "./SnackList";
+import { SnackState } from "../reducers/snackReducer";
+import { User } from "../types/User";
 
 type SnackManagerProps = {
   snacks: SnackState;
   dispatch: React.Dispatch<any>;
-  user: User; // Adicionamos o user aqui
+  user: User;
 };
 
-const SnackManager: React.FC<SnackManagerProps> = ({ snacks, dispatch, user }) => {
+const SnackManager: React.FC<SnackManagerProps> = ({
+  snacks,
+  dispatch,
+  user,
+}) => {
   if (!user.isLoggedIn) {
     return (
       <p className="app__message">
@@ -24,12 +28,12 @@ const SnackManager: React.FC<SnackManagerProps> = ({ snacks, dispatch, user }) =
       <SnackForm dispatch={dispatch} />
       <div className="app__lists">
         <SnackList
-          title="Snacks I Like 👍"
+          title="Snacks I like 👍"
           snacks={snacks.likes}
           dispatch={dispatch}
         />
         <SnackList
-          title="Snacks I Don't Like 👎"
+          title="Snacks I do not like 👎"
           snacks={snacks.dislikes}
           dispatch={dispatch}
         />

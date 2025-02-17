@@ -1,43 +1,40 @@
-import { render, screen } from '@testing-library/react';
-import { User } from '../types/User';
-import Greeting from './Greeting';
+import { render, screen } from "@testing-library/react";
+import Greeting from "./Greeting";
 
-describe('Greeting component', () => {
-  const mockUserLoggedIn: User = { name: 'John', isLoggedIn: true };
-  const mockUserLoggedOut: User = { name: '', isLoggedIn: false };
+describe("Greeting", () => {
+  describe("When user is logged in", () => {
+    it("displays the user name and the description in the greeting message", () => {
+      // 1. Setup
+      render(<Greeting user={{ name: "Iasmim", isLoggedIn: true }} />);
 
-  describe('when user is logged in', () => {
-    beforeEach(() => {
-      render(<Greeting user={mockUserLoggedIn} />);
-    });
+      const greetingMessage = screen.getByRole("heading", {
+        name: "Welcome, Iasmim!",
+      });
+      const description = screen.getByText(
+        "Explore your favorite snacks and add them to your lists below!"
+      );
 
-    it('displays the user name in the greeting message', () => {
-      const greetingMessage = screen.getByRole('heading', { name: /Welcome, John!/i });
-      expect(greetingMessage).toBeInTheDocument();
-    });
-
-
-    it('displays the description to explore snacks', () => {
-      const description = screen.getByText(/Explore your favorite snacks and add them to your lists below!/i);
-      expect(description).toBeInTheDocument();
+      // 3. Assertion
+      expect.soft(greetingMessage).toBeInTheDocument();
+      expect.soft(description).toBeInTheDocument();
     });
   });
 
-  describe('when user is not logged in', () => {
-    beforeEach(() => {
-      render(<Greeting user={mockUserLoggedOut} />);
-    });
+  describe("When user is logged out", () => {
+    it("displays the default greeting message and the description", () => {
+      // 1. Setup
+      render(<Greeting user={{ name: "", isLoggedIn: false }} />);
 
-    it('displays the default greeting message', () => {
-      const greetingMessage = screen.getByRole('heading', { name: /Welcome to SnackList!/i });
-      expect(greetingMessage).toBeInTheDocument();
-    });
+      const defaultMessage = screen.getByRole("heading", {
+        name: "Welcome to SnackList!",
+      });
+      const description = screen.getByText(
+        "The best place to get your snacks lists all sorted out!"
+      );
 
-
-
-    it('displays the description about snack lists', () => {
-      const description = screen.getByText(/The best place to get your snacks lists all sorted out!/i);
-      expect(description).toBeInTheDocument();
+      // 3. Assertion
+      expect.soft(defaultMessage).toBeInTheDocument();
+      expect.soft(description).toBeInTheDocument();
     });
   });
 });
