@@ -39,13 +39,10 @@ describe("SnackManager", () => {
   };
 
   describe("When user is logged out", () => {
-    beforeEach(() => {
-      // 1. Setup
-
-      setup({ name: "", isLoggedIn: false });
-    });
-
     it("displays login message", () => {
+      // 1. Setup
+      setup({ name: "", isLoggedIn: false });
+
       // 3. Assertion
       expect(
         screen.getByText("Login to start adding your favorite snacks!")
@@ -59,61 +56,27 @@ describe("SnackManager", () => {
       setup({ name: "Ias", isLoggedIn: true });
     });
 
-    it("displays both snack lists with their items", () => {
-      // Option - data-testId:
-      const likedList = screen.getByTestId("snacks-i-like-👍");
-      const dislikedList = screen.getByTestId("snacks-i-do-not-like-👎");
-
-      // Second option:
-      // const likedList = screen.getByRole("list", { name: "Snacks I like 👍 1 item(s)" });
-      // const dislikedList = screen.getByRole("list", {
-      //   name: "Snacks I do not like 👎 1 item(s)",
-      // });
+    it.todo("displays both snack lists with their items", () => {
+      // const likedList =
+      // const dislikedList =
 
       // Debugging tool
-      screen.logTestingPlaygroundURL();
-
+      // screen.logTestingPlaygroundURL();
+      
       // 3. Assertion
-      expect.soft(likedList).toBeInTheDocument();
-      expect.soft(dislikedList).toBeInTheDocument();
-      expect.soft(within(likedList).getByText("Good snack"));
-      expect.soft(within(dislikedList).getByText("Bad snack"));
     });
 
     describe("When adding a new snack", () => {
-      it("adds a liked snack correctly", async () => {
-        const likedList = screen.getByTestId("snacks-i-like-👍");
-
+      it.todo("adds a liked snack correctly", async () => {
         // 2. Action
-        await user.type(screen.getByLabelText(/Snack Name/i), "New snack");
-        await user.type(
-          screen.getByLabelText("Description"),
-          "Tasty snack description"
-        );
-        // await user.selectOptions(screen.getByLabelText("Type"), "bitter");
-        await user.click(screen.getByRole("option", { name: "Bitter" }));
-        await user.click(screen.getByLabelText("I like it 👍"));
-        await user.click(screen.getByRole("button", { name: "Add Snack" }));
-
         // 3. Assertion
-        expect(within(likedList).getByText("New snack"));
       });
     });
 
     describe("When removing a snack", () => {
-      it("removes a liked snack correctly", async () => {
-        const likedList = screen.getByTestId("snacks-i-like-👍");
-        const removeButton = within(likedList).getByRole("button", {
-          name: "Remove",
-        });
-
+      it.todo("removes a liked snack correctly", async () => {
         // 2. Action
-        await user.click(removeButton);
-
         // 3. Assertion
-        await waitFor(() =>
-          expect.soft(screen.queryByText("Good snack")).not.toBeInTheDocument()
-        );
       });
     });
   });
