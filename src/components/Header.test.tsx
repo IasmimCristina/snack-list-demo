@@ -65,11 +65,16 @@ describe("Header", () => {
     });
   });
 
-  describe.todo("When user is logged in", () => {
+  describe("When user is logged in", () => {
     it("logs out correctly", async () => {
       // 1. Setup
+      setup({ name: "Ias", isLoggedIn: true });
+
       // 2. Action
+      await user.click(screen.getByRole("button", { name: "Logout" }));
+
       // 3. Assertion
+      expect(screen.getByRole("button", { name: "Login" })).toBeInTheDocument();
     });
   });
 });
