@@ -60,7 +60,7 @@ describe("SnackManager", () => {
     });
 
     it("displays both snack lists with their items", () => {
-      // Option - data-testId:
+      // Another option - data-testId:
       const likedList = screen.getByTestId("snacks-i-like-👍");
       const dislikedList = screen.getByTestId("snacks-i-do-not-like-👎");
 
@@ -74,8 +74,6 @@ describe("SnackManager", () => {
       screen.logTestingPlaygroundURL();
 
       // 3. Assertion
-      expect.soft(likedList).toBeInTheDocument();
-      expect.soft(dislikedList).toBeInTheDocument();
       expect.soft(within(likedList).getByText("Good snack"));
       expect.soft(within(dislikedList).getByText("Bad snack"));
     });
@@ -85,13 +83,13 @@ describe("SnackManager", () => {
         const likedList = screen.getByTestId("snacks-i-like-👍");
 
         // 2. Action
-        await user.type(screen.getByLabelText(/Snack Name/i), "New snack");
+        await user.type(screen.getByLabelText("Snack Name"), "New snack");
         await user.type(
           screen.getByLabelText("Description"),
           "Tasty snack description"
         );
-        // await user.selectOptions(screen.getByLabelText("Type"), "bitter");
         await user.click(screen.getByRole("option", { name: "Bitter" }));
+        // Another way: await user.selectOptions(screen.getByLabelText("Type"), "bitter");
         await user.click(screen.getByLabelText("I like it 👍"));
         await user.click(screen.getByRole("button", { name: "Add Snack" }));
 
@@ -111,9 +109,7 @@ describe("SnackManager", () => {
         await user.click(removeButton);
 
         // 3. Assertion
-        await waitFor(() =>
-          expect.soft(screen.queryByText("Good snack")).not.toBeInTheDocument()
-        );
+        expect.soft(screen.queryByText("Good snack")).not.toBeInTheDocument();
       });
     });
   });
